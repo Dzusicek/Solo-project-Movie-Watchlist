@@ -4,9 +4,45 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./styles.css" />
-    <title>Movie watchlist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <title>Movie search 🎞</title>
   </head>
   <body>
+    <div id="mainContainer">
+      <header>
+        <h1>Find your film</h1>
+        <p>My watchlist</p>
+      </header>
+      <div id="input-area">
+        <input type="text" placeholder="Searching something with no data" />
+        <button>Search</button>
+      </div>
+      <div id="search-results-container">
+        <div class="film-container">
+          <img
+            src="./imgs/placeholde_img.png"
+            alt="Movie image not availiable"
+          />
+          <div>
+            <h3>Blade runner ⭐8.1</h3>
+            <div class="film-details">
+              <p>117min</p>
+              <p>Action,Drama,Sci-fi</p>
+              <p><img src="./imgs/Add_to_watchlist_icon.png" />Watchlist</p>
+            </div>
+            <div class="film-description">
+              A blade runner must pursue and terminate four replicants who stole
+              a ship in space, and have returned to Earth to find their creator.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="./script.js"></script>
   </body>
 </html>
