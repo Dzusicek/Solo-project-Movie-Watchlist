@@ -97,6 +97,9 @@ button {
   align-items: center;
   column-gap: 0.3125rem;
 }
+.watchlist-btn-container:hover {
+  cursor: pointer;
+}
 .film-description-container {
   font-size: 14px;
   color: #6b7280;

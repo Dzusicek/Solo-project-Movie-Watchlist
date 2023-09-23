@@ -2,6 +2,7 @@
 const resultsContainer = document.getElementById("search-results-container");
 const searchInput = document.getElementById("search-input-el");
 const searchBtn = document.getElementById("search-btn-el");
+searchInput.value = "Pig";
 
 //event listeners
 searchBtn.addEventListener("click", () => {
@@ -10,9 +11,15 @@ searchBtn.addEventListener("click", () => {
     searchTitles(searchInput.value);
   }
 });
+document.addEventListener("click", (e) => {
+  if (e.target.id) {
+    console.log(e.target.id);
+  }
+});
 
 //global variables
 let searchResultsArray;
+let watchlistArray = [];
 
 //fetch requests
 async function searchTitles(searchData) {
@@ -23,7 +30,7 @@ async function searchTitles(searchData) {
   );
   const data = await response.json();
   //individualy searches first 4 movies for detailed information and than passes it on
-  for (let i = 0; i < data.Search.length; i++) {
+  for (let i = 0; i < 3 /*data.Search.length*/; i++) {
     const searchTitle = await fetch(
       `http://www.omdbapi.com/?t=${data.Search[i].Title}&apikey=284f2e6d`
     );
@@ -33,9 +40,11 @@ async function searchTitles(searchData) {
   createHtml(searchResultsArray);
 }
 
-//creates html and combines it with data input from APIs and then renders it in index
+//creates html and combines it with data input from APIs and then renders it in index.html
 function createHtml(dataArray) {
+  console.log(dataArray);
   for (const result of dataArray) {
+    console.log(result.imdbID);
     resultsContainer.innerHTML += `<div class="film-container">
     <img class="film-poster" src="${result.Poster}" />
                 <div>
@@ -47,7 +56,7 @@ function createHtml(dataArray) {
               <div class="film-details">
                 <p>${result.Runtime}</p>
                 <p>${result.Genre}</p>
-                <div class="watchlist-btn-container">
+                <div class="watchlist-btn-container" id="${result.imdbID}">
                   <img src="./imgs/Add_to_watchlist_icon.png" />
                   <p>Watchlist</p>
                 </div>
