@@ -83,6 +83,7 @@ button {
 .film-details {
   display: flex;
   justify-content: start;
+  align-items: center;
   column-gap: 1.1875rem;
   font-weight: 500;
   margin-bottom: 0.5rem;
@@ -93,6 +94,8 @@ button {
   height: 150px;
 }
 .watchlist-btn-container {
+  border: none;
+  background-color: transparent;
   display: flex;
   align-items: center;
   column-gap: 0.3125rem;

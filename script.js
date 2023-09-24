@@ -4,6 +4,10 @@ const searchInput = document.getElementById("search-input-el");
 const searchBtn = document.getElementById("search-btn-el");
 searchInput.value = "Pig";
 
+//global variables
+let searchResultsArray;
+let watchlistArray = [];
+
 //event listeners
 searchBtn.addEventListener("click", () => {
   if (searchInput.value) {
@@ -13,13 +17,9 @@ searchBtn.addEventListener("click", () => {
 });
 document.addEventListener("click", (e) => {
   if (e.target.id) {
-    console.log(e.target.id);
+    addToWatchlist(e.target.id);
   }
 });
-
-//global variables
-let searchResultsArray;
-let watchlistArray = [];
 
 //fetch requests
 async function searchTitles(searchData) {
@@ -42,9 +42,7 @@ async function searchTitles(searchData) {
 
 //creates html and combines it with data input from APIs and then renders it in index.html
 function createHtml(dataArray) {
-  console.log(dataArray);
   for (const result of dataArray) {
-    console.log(result.imdbID);
     resultsContainer.innerHTML += `<div class="film-container">
     <img class="film-poster" src="${result.Poster}" />
                 <div>
@@ -56,10 +54,10 @@ function createHtml(dataArray) {
               <div class="film-details">
                 <p>${result.Runtime}</p>
                 <p>${result.Genre}</p>
-                <div class="watchlist-btn-container" id="${result.imdbID}">
+                <button type="button" id="${result.imdbID}" class="watchlist-btn-container">
                   <img src="./imgs/Add_to_watchlist_icon.png" />
-                  <p>Watchlist</p>
-                </div>
+                  Watchlist
+                  </button>
               </div>
               <div class="film-description-container">
                 <p>
@@ -69,5 +67,16 @@ function createHtml(dataArray) {
             </div>
           </div>
     `;
+  }
+}
+function addToWatchlist(targetId) {
+  //variable providing information if item is already in watchlist
+  const contained = watchlistArray.every((listItem) => {
+    return listItem.imdbID !== targetId;
+  });
+  for (result of searchResultsArray) {
+    if (targetId === result.imdbID && contained) {
+      watchlistArray.push(result);
+    }
   }
 }
