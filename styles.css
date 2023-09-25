@@ -32,6 +32,12 @@ h3 {
 p {
   margin: 0;
 }
+a {
+  color: #ffffff;
+  font-size: 0.875rem;
+  text-decoration: none;
+  font-weight: 600;
+}
 input {
   width: 19.125rem;
   border: solid 1px #d1d5db;
@@ -59,13 +65,21 @@ button {
   justify-content: center;
   margin: 24.173vh auto;
 }
-#search-results-container {
+#search-results-container,
+#watchlist-container {
   height: 73.5vh;
   margin: 3.9375rem 2.75rem 0 2.75rem;
+  color: #dfdddd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
 }
 
 /* Styling for film container and its childeren */
 .film-container {
+  color: #000000;
   display: flex;
   justify-content: center;
   column-gap: 1.3125rem;
@@ -107,4 +121,12 @@ button {
   font-size: 14px;
   color: #6b7280;
 }
-/* ----- */
+/* Styling for wathclist.html*/
+.boldTextP {
+  display: flex;
+  gap: 10px;
+  color: black;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+}

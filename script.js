@@ -1,12 +1,12 @@
 //links to html objects
 const resultsContainer = document.getElementById("search-results-container");
+const watchlistContainer = document.getElementById("watchlist-container");
 const searchInput = document.getElementById("search-input-el");
 const searchBtn = document.getElementById("search-btn-el");
-searchInput.value = "Pig";
 
 //global variables
 let searchResultsArray;
-let watchlistArray = [];
+let watchlistArray = JSON.parse(localStorage.getItem("Watchlist"));
 
 //event listeners
 searchBtn.addEventListener("click", () => {
@@ -37,13 +37,14 @@ async function searchTitles(searchData) {
     const response = await searchTitle.json();
     searchResultsArray.push(response);
   }
-  createHtml(searchResultsArray);
+  resultsContainer.innerHTML += createHtml(searchResultsArray);
 }
 
 //creates html and combines it with data input from APIs and then renders it in index.html
 function createHtml(dataArray) {
   for (const result of dataArray) {
-    resultsContainer.innerHTML += `<div class="film-container">
+    console.log("run");
+    return `<div class="film-container">
     <img class="film-poster" src="${result.Poster}" />
                 <div>
               <div class="film-title-container">
@@ -69,6 +70,7 @@ function createHtml(dataArray) {
     `;
   }
 }
+
 function addToWatchlist(targetId) {
   //variable providing information if item is already in watchlist
   const contained = watchlistArray.every((listItem) => {
@@ -77,6 +79,7 @@ function addToWatchlist(targetId) {
   for (result of searchResultsArray) {
     if (targetId === result.imdbID && contained) {
       watchlistArray.push(result);
+      localStorage.setItem("Watchlist", JSON.stringify(watchlistArray));
     }
   }
 }
