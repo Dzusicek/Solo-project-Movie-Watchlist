@@ -12,11 +12,11 @@
     />
     <title>Movie search 🎞</title>
   </head>
-  <body>
+  <body id="index">
     <div id="mainContainer">
       <header>
         <h1>Find your film</h1>
-        <a href="./watchlist.html">My watchlist</a>
+        <a id="watchlistPageLink" href="./watchlist.html">My watchlist</a>
       </header>
       <div id="input-area">
         <input
@@ -27,7 +27,11 @@
         <button id="search-btn-el">Search</button>
       </div>
       <div id="search-results-container">
-        <img src="./imgs/Videotape_icon.png" alt="Viedotape-icon" />
+        <img
+          id="placeholderImg"
+          src="./imgs/Videotape_icon.png"
+          alt="Viedotape-icon"
+        />
         <h3>Start Exploring!</h3>
       </div>
     </div>

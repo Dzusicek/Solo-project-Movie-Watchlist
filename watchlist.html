@@ -12,14 +12,22 @@
     />
     <title>Movie watchlist 📋</title>
   </head>
-  <body>
+  <body id="watchlist">
     <div id="mainContainer">
       <header>
         <h1>My watchlist</h1>
         <a href="./index.html">Search for movies</a>
       </header>
+      <div id="input-area">
+        <input
+          id="search-input-el"
+          type="text"
+          placeholder="Searching something with no data"
+        />
+        <button id="search-btn-el">Search</button>
+      </div>
       <div id="watchlist-container">
-        <h2>Your watchlist is looking a little empty...</h2>
+        <h2 id="placeholderImg">Your watchlist is looking a little empty...</h2>
         <p class="boldTextP">
           <img src="./imgs/Add_to_watchlist_icon.png" /> Let’s add some movies!
         </p>
