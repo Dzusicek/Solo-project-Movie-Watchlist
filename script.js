@@ -20,7 +20,6 @@ window.onload = function () {
     watchlistArray = JSON.parse(localStorage.getItem("Watchlist"));
   }
 };
-console.log(watchlistArray.length);
 //event listeners
 document.addEventListener("click", (e) => {
   if (resultsContainer) {
