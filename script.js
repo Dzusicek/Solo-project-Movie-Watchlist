@@ -5,7 +5,6 @@ const inputDivContainer = document.getElementById("input-area");
 const searchInput = document.getElementById("search-input-el");
 const searchBtn = document.getElementById("search-btn-el");
 const watchlistPageLink = document.getElementById("watchlistPageLink");
-
 //links to used images
 let plusIcon = "./imgs/Add_to_watchlist_icon.png";
 let minusIcon = "./imgs/Remove_from_watchlist_icon.png";
@@ -22,9 +21,9 @@ let watchlistArray = JSON.parse(localStorage.getItem("Watchlist"));
 
 //event listeners
 document.addEventListener("click", (e) => {
-  if (document.URL.includes("index")) {
+  if (resultsContainer) {
     manageClick(e, searchResultsArray);
-  } else if (document.URL.includes("watchlist")) {
+  } else if (watchlistContainer) {
     manageClick(e, watchlistArray);
   }
 });
