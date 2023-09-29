@@ -60,6 +60,11 @@ async function searchTitles(searchData) {
 function createHtml(dataArray, icon) {
   let generatedHtml = [];
   for (const result of dataArray) {
+    if (watchlistArray.includes(result)) {
+      icon = minusIcon;
+    } else {
+      icon = plusIcon;
+    }
     generatedHtml.push(`<div class="film-container">
     <img class="film-poster" src="${result.Poster}" />
                 <div>
@@ -97,10 +102,8 @@ function addToWatchlist(targetId, filteredArray) {
   for (item of filteredArray) {
     if (targetId === item.imdbID && notContained) {
       watchlistArray.push(item);
-      alert(`${item.Title} has been added to watchlist`);
     } else if (targetId === item.imdbID && !notContained) {
       watchlistArray.splice(watchlistArray.indexOf(item), 1);
-      alert(`${item.Title} has been removed from watchlist`);
     }
     localStorage.setItem("Watchlist", JSON.stringify(watchlistArray));
   }
