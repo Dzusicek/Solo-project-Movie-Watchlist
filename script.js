@@ -9,16 +9,18 @@ const watchlistPageLink = document.getElementById("watchlistPageLink");
 let plusIcon = "./imgs/Add_to_watchlist_icon.png";
 let minusIcon = "./imgs/Remove_from_watchlist_icon.png";
 
-//onload functions
-window.onload = function () {
-  if (localStorage.getItem("Watchlist") === null)
-    localStorage.setItem("Watchlist", "[]");
-};
-
 //global variables
 let searchResultsArray = [];
-let watchlistArray = JSON.parse(localStorage.getItem("Watchlist"));
+let watchlistArray = [];
 
+//onload functions
+window.onload = function () {
+  if (localStorage.getItem("Watchlist") === null) {
+    localStorage.setItem("Watchlist", "[]");
+    watchlistArray = JSON.parse(localStorage.getItem("Watchlist"));
+  }
+};
+console.log(watchlistArray.length);
 //event listeners
 document.addEventListener("click", (e) => {
   if (resultsContainer) {
