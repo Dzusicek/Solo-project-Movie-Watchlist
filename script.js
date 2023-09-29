@@ -5,6 +5,11 @@ const inputDivContainer = document.getElementById("input-area");
 const searchInput = document.getElementById("search-input-el");
 const searchBtn = document.getElementById("search-btn-el");
 const watchlistPageLink = document.getElementById("watchlistPageLink");
+
+//links to used images
+let plusIcon = "./imgs/Add_to_watchlist_icon.png";
+let minusIcon = "./imgs/Remove_from_watchlist_icon.png";
+
 //global variables
 let searchResultsArray = [];
 let watchlistArray = JSON.parse(localStorage.getItem("Watchlist"));
@@ -19,15 +24,15 @@ document.addEventListener("click", (e) => {
   }
 });
 
+//decides what happennes when user clicks something
 function manageClick(e, array) {
   if (e.target.id === searchBtn.id) {
     resultsContainer.innerHTML = "";
     searchTitles(searchInput.value);
-  }
-  if (e.target.id && !watchlistArray) {
+  } else if (e.target.id.includes("tt") && !watchlistArray) {
     watchlistArray = [];
     addToWatchlist(e.target.id, array);
-  } else if (e.target.id) {
+  } else if (e.target.id.includes("tt")) {
     addToWatchlist(e.target.id, array);
   }
 }
@@ -52,7 +57,7 @@ async function searchTitles(searchData) {
 }
 
 //creates html and combines it with data input from APIs and returns it
-function createHtml(dataArray) {
+function createHtml(dataArray, icon) {
   let generatedHtml = [];
   for (const result of dataArray) {
     generatedHtml.push(`<div class="film-container">
@@ -67,7 +72,7 @@ function createHtml(dataArray) {
                 <p>${result.Runtime}</p>
                 <p>${result.Genre}</p>
                 <button type="button" id="${result.imdbID}" class="watchlist-btn-container">
-                  <img src="./imgs/Add_to_watchlist_icon.png" />
+                  <img src="${icon}" id="${result.imdbID}btn">
                   Watchlist
                   </button>
               </div>
@@ -83,32 +88,46 @@ function createHtml(dataArray) {
   return generatedHtml;
 }
 
+//function filters and if needed pushes item in watchlist array
 function addToWatchlist(targetId, filteredArray) {
-  console.log("addToWatchlist has run");
   //variable providing information if item is already in watchlist
   let notContained = watchlistArray.every((listItem) => {
     return listItem.imdbID !== targetId;
   });
   for (item of filteredArray) {
-    console.log("for in watschlist ha run");
     if (targetId === item.imdbID && notContained) {
       watchlistArray.push(item);
+      alert(`${item.Title} has been added to watchlist`);
     } else if (targetId === item.imdbID && !notContained) {
-      const result = watchlistArray.find(({ imdbID }) => imdbID === targetId);
       watchlistArray.splice(watchlistArray.indexOf(item), 1);
+      alert(`${item.Title} has been removed from watchlist`);
     }
     localStorage.setItem("Watchlist", JSON.stringify(watchlistArray));
-    console.log(watchlistArray);
   }
-  renderFunction(watchlistArray);
+  renderFunction();
 }
+
+//This function renders generated content based on what html elements exist
 function renderFunction() {
-  console.log(searchResultsArray);
-  if (watchlistContainer) {
-    console.log("watchlist has run");
-    watchlistContainer.innerHTML = createHtml(watchlistArray);
+  if (watchlistContainer && watchlistArray.length) {
+    watchlistContainer.innerHTML = createHtml(watchlistArray, minusIcon);
+    inputDivContainer.style.display = "none";
+  } else if (watchlistContainer && watchlistArray.length == 0) {
+    watchlistContainer.innerHTML = `        <h2 id="placeholderImg">Your watchlist is looking a little empty...</h2>
+        <a class="boldTextP" href="./index.html">
+          <img src="./imgs/Add_to_watchlist_icon.png" /> Let’s add some movies!
+        </a>`;
+    inputDivContainer.style.display = "none";
+  } else if (resultsContainer && searchResultsArray.length) {
+    inputDivContainer.style.display = "visible";
+    resultsContainer.innerHTML = createHtml(searchResultsArray, plusIcon);
   } else {
-    console.log("container has run");
-    resultsContainer.innerHTML = createHtml(searchResultsArray);
+    resultsContainer.innerHTML = `        <img
+          id="placeholderImg"
+          src="./imgs/Videotape_icon.png"
+          alt="Viedotape-icon"
+        />
+        <h3>Start Exploring!</h3>`;
   }
 }
+renderFunction();
