@@ -9,22 +9,26 @@ const watchlistPageLink = document.getElementById("watchlistPageLink");
 let plusIcon = "./imgs/Add_to_watchlist_icon.png";
 let minusIcon = "./imgs/Remove_from_watchlist_icon.png";
 
-//global variables
-let searchResultsArray = [];
-let watchlistArray = [];
-
 //onload functions
 window.onload = function () {
   if (localStorage.getItem("Watchlist") === null) {
     localStorage.setItem("Watchlist", "[]");
     watchlistArray = JSON.parse(localStorage.getItem("Watchlist"));
   }
+  renderFunction();
 };
+
+//global variables
+let searchResultsArray = [];
+let watchlistArray = JSON.parse(localStorage.getItem("Watchlist"));
+
 //event listeners
 document.addEventListener("click", (e) => {
   if (resultsContainer) {
+    console.log("this");
     manageClick(e, searchResultsArray);
   } else if (watchlistContainer) {
+    console.log("that");
     manageClick(e, watchlistArray);
   }
 });
@@ -32,12 +36,15 @@ document.addEventListener("click", (e) => {
 //decides what happennes when user clicks something
 function manageClick(e, array) {
   if (e.target.id === searchBtn.id) {
+    console.log("1");
     resultsContainer.innerHTML = "";
     searchTitles(searchInput.value);
   } else if (e.target.id.includes("tt") && !watchlistArray) {
+    console.log("2");
     watchlistArray = [];
     addToWatchlist(e.target.id, array);
   } else if (e.target.id.includes("tt")) {
+    console.log("3");
     addToWatchlist(e.target.id, array);
   }
 }
@@ -47,13 +54,13 @@ async function searchTitles(searchData) {
   searchResultsArray = [];
   //returns short data array of films found in search
   const response = await fetch(
-    `http://www.omdbapi.com/?s=${searchData}&?type=movie&apikey=284f2e6d`
+    `https://www.omdbapi.com/?s=${searchData}&?type=movie&apikey=284f2e6d`
   );
   const data = await response.json();
   //individualy searches first 4 movies for detailed information and than passes it on
   for (let i = 0; i < 4 /*data.Search.length*/; i++) {
     const searchTitle = await fetch(
-      `http://www.omdbapi.com/?t=${data.Search[i].Title}&apikey=284f2e6d`
+      `https://www.omdbapi.com/?t=${data.Search[i].Title}&apikey=284f2e6d`
     );
     const response = await searchTitle.json();
     searchResultsArray.push(response);
@@ -101,14 +108,18 @@ function createHtml(dataArray, icon) {
 //function filters and if needed pushes item in watchlist array
 function addToWatchlist(targetId, filteredArray) {
   //variable providing information if item is already in watchlist
+  console.log(watchlistArray);
   let notContained = watchlistArray.every((listItem) => {
     return listItem.imdbID !== targetId;
   });
+  console.log(notContained);
   for (item of filteredArray) {
     if (targetId === item.imdbID && notContained) {
       watchlistArray.push(item);
+      console.log("A");
     } else if (targetId === item.imdbID && !notContained) {
       watchlistArray.splice(watchlistArray.indexOf(item), 1);
+      console.log("B");
     }
     localStorage.setItem("Watchlist", JSON.stringify(watchlistArray));
   }
@@ -117,7 +128,9 @@ function addToWatchlist(targetId, filteredArray) {
 
 //This function renders generated content based on what html elements exist
 function renderFunction() {
-  if (watchlistContainer && watchlistArray.length) {
+  if (watchlistArray === null) {
+    localStorage.setItem("Watchlist", "[]");
+  } else if (watchlistContainer && watchlistArray.length) {
     watchlistContainer.innerHTML = createHtml(watchlistArray, minusIcon);
     inputDivContainer.style.display = "none";
   } else if (watchlistContainer && watchlistArray.length == 0) {
@@ -129,7 +142,7 @@ function renderFunction() {
   } else if (resultsContainer && searchResultsArray.length) {
     inputDivContainer.style.display = "visible";
     resultsContainer.innerHTML = createHtml(searchResultsArray, plusIcon);
-  } else {
+  } else if (resultsContainer) {
     resultsContainer.innerHTML = `        <img
           id="placeholderImg"
           src="./imgs/Videotape_icon.png"
@@ -138,4 +151,3 @@ function renderFunction() {
         <h3>Start Exploring!</h3>`;
   }
 }
-renderFunction();
