@@ -25,9 +25,11 @@ document.addEventListener("click", (e) => {
 
 //decides further action according to what the user clicks
 function manageClick(e, array) {
-  if (e.target.id === searchBtn.id) {
+  if (e.target.id === searchBtn.id && searchInput.value) {
     resultsContainer.innerHTML = "";
     searchTitles(searchInput.value);
+  } else if (e.target.id === searchBtn.id && !searchInput.value) {
+    alert("No film title to search for 😥");
   } else if (e.target.id.includes("tt")) {
     addToWatchlist(e.target.id, array);
   }
@@ -35,26 +37,21 @@ function manageClick(e, array) {
 
 //fetch requests
 async function searchTitles(searchData) {
-  if (searchData.value) {
-    searchResultsArray = [];
-    //returns short data array of films found in search
-    const response = await fetch(
-      `https://www.omdbapi.com/?s=${searchData}&?type=movie&apikey=284f2e6d`
+  searchResultsArray = [];
+  //returns short data array of films found in search
+  const response = await fetch(
+    `https://www.omdbapi.com/?s=${searchData}&?type=movie&apikey=284f2e6d`
+  );
+  const data = await response.json();
+  //individualy searches first 4 movies for detailed information and than passes it on (is currently set to length of 4 to shorten loading time)
+  for (let i = 0; i < 4 /*data.Search.length*/; i++) {
+    const searchTitle = await fetch(
+      `https://www.omdbapi.com/?t=${data.Search[i].Title}&apikey=284f2e6d`
     );
-    const data = await response.json();
-    //individualy searches first 4 movies for detailed information and than passes it on (is currently set to length of 4 to shorten loading time)
-    for (let i = 0; i < 4 /*data.Search.length*/; i++) {
-      const searchTitle = await fetch(
-        `https://www.omdbapi.com/?t=${data.Search[i].Title}&apikey=284f2e6d`
-      );
-      const response = await searchTitle.json();
-      searchResultsArray.push(response);
-    }
-    renderFunction();
-  } else {
-    alert("Oops, looks like you forgor to write name of the film!")
-    renderFunction();
+    const response = await searchTitle.json();
+    searchResultsArray.push(response);
   }
+  renderFunction();
 }
 
 //creates html and combines it with data input from APIs and returns it
