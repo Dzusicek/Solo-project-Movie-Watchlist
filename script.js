@@ -35,21 +35,26 @@ function manageClick(e, array) {
 
 //fetch requests
 async function searchTitles(searchData) {
-  searchResultsArray = [];
-  //returns short data array of films found in search
-  const response = await fetch(
-    `https://www.omdbapi.com/?s=${searchData}&?type=movie&apikey=284f2e6d`
-  );
-  const data = await response.json();
-  //individualy searches first 4 movies for detailed information and than passes it on (is currently set to length of 4 to shorten loading time)
-  for (let i = 0; i < 4 /*data.Search.length*/; i++) {
-    const searchTitle = await fetch(
-      `https://www.omdbapi.com/?t=${data.Search[i].Title}&apikey=284f2e6d`
+  if (searchData.value) {
+    searchResultsArray = [];
+    //returns short data array of films found in search
+    const response = await fetch(
+      `https://www.omdbapi.com/?s=${searchData}&?type=movie&apikey=284f2e6d`
     );
-    const response = await searchTitle.json();
-    searchResultsArray.push(response);
+    const data = await response.json();
+    //individualy searches first 4 movies for detailed information and than passes it on (is currently set to length of 4 to shorten loading time)
+    for (let i = 0; i < 4 /*data.Search.length*/; i++) {
+      const searchTitle = await fetch(
+        `https://www.omdbapi.com/?t=${data.Search[i].Title}&apikey=284f2e6d`
+      );
+      const response = await searchTitle.json();
+      searchResultsArray.push(response);
+    }
+    renderFunction();
+  } else {
+    alert("Oops, looks like you forgor to write name of the film!")
+    renderFunction();
   }
-  renderFunction();
 }
 
 //creates html and combines it with data input from APIs and returns it
