@@ -92,6 +92,7 @@ button:hover {
   column-gap: 1.3125rem;
   padding-bottom: 1.28125rem;
   border-bottom: solid 1px #e5e7eb;
+  max-width: 460px;
 }
 .film-title-container {
   display: flex;
@@ -128,7 +129,7 @@ button:hover {
   font-size: 14px;
   color: #6b7280;
 }
-/* Styling for wathclist.html*/
+/* Styling for watchlist.html*/
 .boldTextP {
   display: flex;
   gap: 10px;
