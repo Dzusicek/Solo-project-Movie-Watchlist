@@ -1,5 +1,6 @@
 body,
 html {
+  min-width: 340px;
   font-family: "Inter", sans-serif;
   box-sizing: border-box;
   width: 100%;
@@ -81,7 +82,7 @@ button:hover {
 
 /* Styling for film container and its childeren */
 #placeholderImg {
-  padding-top: 35%;
+  padding-top: 200px;
 }
 .film-container {
   display: inline-block;

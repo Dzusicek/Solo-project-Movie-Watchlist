@@ -112,14 +112,14 @@ function addToWatchlist(targetId, filteredArray) {
 
 //This function renders generated content based on what html elements exist
 function renderFunction() {
-  if (watchlistContainer) {
-    watchlistContainer.innerHTML = createHtml(watchlistArray);
-    inputDivContainer.style.display = "none";
-  } else if (watchlistContainer && watchlistArray.length == 0) {
+  if (watchlistContainer && watchlistArray.length == 0) {
     watchlistContainer.innerHTML = `        <h2 id="placeholderImg">Your watchlist is looking a little empty...</h2>
         <a class="boldTextP" href="./index.html">
           <img src="./imgs/Add_to_watchlist_icon.png" /> Let’s add some movies!
         </a>`;
+    inputDivContainer.style.display = "none";
+  } else if (watchlistContainer) {
+    watchlistContainer.innerHTML = createHtml(watchlistArray);
     inputDivContainer.style.display = "none";
   } else if (resultsContainer && searchResultsArray.length) {
     inputDivContainer.style.display = "visible";
