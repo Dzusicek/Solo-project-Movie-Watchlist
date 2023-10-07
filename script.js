@@ -22,6 +22,13 @@ document.addEventListener("click", (e) => {
     manageClick(e, watchlistArray);
   }
 });
+searchInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter" && searchInput.value) {
+    searchTitles(searchInput.value);
+  } else if (e.key === "Enter" && !searchInput.value) {
+    alert("No film title to search for 😥");
+  }
+});
 
 //decides further action according to what the user clicks
 function manageClick(e, array) {
