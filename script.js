@@ -24,6 +24,7 @@ document.addEventListener("click", (e) => {
 });
 searchInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter" && searchInput.value) {
+    resultsContainer.innerHTML = `<img src="imgs/loading gif.gif">`;
     searchTitles(searchInput.value);
   } else if (e.key === "Enter" && !searchInput.value) {
     alert("No film title to search for 😥");
@@ -33,7 +34,7 @@ searchInput.addEventListener("keypress", (e) => {
 //decides further action according to what the user clicks
 function manageClick(e, array) {
   if (e.target.id === searchBtn.id && searchInput.value) {
-    resultsContainer.innerHTML = "";
+    resultsContainer.innerHTML = `<img src="imgs/loading gif.gif">`;
     searchTitles(searchInput.value);
   } else if (e.target.id === searchBtn.id && !searchInput.value) {
     alert("No film title to search for 😥");
